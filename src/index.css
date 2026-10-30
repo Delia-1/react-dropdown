@@ -1,0 +1,29 @@
+/* Add already customed combination --> Just need to pass a className */
+.container {
+  display: flex;
+  flex-direction: var(--container-dir, row);
+  gap: var(--container-gap, 0px);
+  margin-bottom: var(--container-margin-bottom, 20px);
+}
+
+.label {
+  color: var(--label-color, black);
+  font-size: var(--label-size, 16px);
+  font-family: var(--label-font, sans-serif);
+}
+
+.select {
+  border-radius: var(--select-border-radius, 4px);
+  font-size: var(--select-option-size, 14px);
+  text-align: var(--select-text-align, auto);
+  width: var(--select-w, fit-content);
+  background-color: var(--select-bg, white);
+  color: var(--select-color, black);
+  border-color: var(--select-border-color, black);
+  border-width: var(--select-border-width, 1px);
+}
+
+.option {
+  background-color: var(--option-bg, white);
+  color: var(--option-color, black);
+}
