@@ -10,7 +10,8 @@ export default defineConfig({
       entry: "src/index.js",
       name: "ReactDropdown",
       formats: ["es", "cjs"], // make the lib compatible with more env (require/ import, export)
-      fileName: (format) => `react-dropdown.${format}.js`,
+      fileName: (format) =>
+        format === "cjs" ? "react-dropdown.cjs" : "react-dropdown.es.js",
     },
     rolldownOptions: {
       external: ["react", "react/jsx-runtime"],
