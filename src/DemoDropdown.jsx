@@ -40,7 +40,7 @@ const DemoDropdown = () => {
     const formData = new FormData(form);
     const firstName = formData.get("firstName");
     const state = formData.get("state");
-    const dep = formData.get("department");
+    const dep = formData.get("ArrayData");
     const dataUser = { firstName, state, dep };
     setData(dataUser);
     form.reset();
@@ -78,9 +78,9 @@ const DemoDropdown = () => {
         <input type="text" name="firstName"></input>
 
         <Dropdown
-          label="ArrayData 20px green stretch"
+          label="ArrayData"
           options={arrayData}
-          name="department"
+          // name="department"
           styles={{
             labelCol: "green",
             labelSize: "25px",

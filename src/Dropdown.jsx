@@ -28,6 +28,7 @@ const Dropdown = ({ label, name, options, customSelectLabel, styles = "" }) => {
   if (!options) {
     return;
   }
+
   const isObjectValue = typeof options[0] === "object";
 
   const handleChange = (e) => {
@@ -64,7 +65,7 @@ const Dropdown = ({ label, name, options, customSelectLabel, styles = "" }) => {
         </label>
         <select
           id={label}
-          name={name}
+          name={name ? name : label}
           onChange={handleChange}
           className="select"
         >
