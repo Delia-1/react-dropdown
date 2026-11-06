@@ -37,6 +37,7 @@ const Dropdown = ({ label, name, options, customSelectLabel, styles = "" }) => {
 
     return selectedOpt;
   };
+  // Es ce que les variables alourdissent les perfs?
 
   return (
     <div
@@ -59,25 +60,25 @@ const Dropdown = ({ label, name, options, customSelectLabel, styles = "" }) => {
         "--option-color": optionColor,
       }}
     >
-      <div className="container">
-        <label htmlFor={label} className="label">
+      <div className="lrd-container">
+        <label htmlFor={label} className="lrd-label">
           {label}
         </label>
         <select
           id={label}
           name={name ? name : label}
           onChange={handleChange}
-          className="select"
+          className="lrd-select"
         >
           {customSelectLabel && (
-            <option value="" className="option">
+            <option value="" className="lrd-option">
               {customSelectLabel}
             </option>
           )}
 
           {!isObjectValue
             ? options.map((option) => (
-                <option key={option} value={option} className="option">
+                <option key={option} value={option} className="lrd-option">
                   {option}
                 </option>
               ))
@@ -85,7 +86,7 @@ const Dropdown = ({ label, name, options, customSelectLabel, styles = "" }) => {
                 <option
                   key={option.value}
                   value={option.value}
-                  className="option"
+                  className="lrd-option"
                 >
                   {option.label}
                 </option>
