@@ -1,0 +1,23 @@
+name: Security Audit
+run-name: "Detect security vulnerabilities - ${{ github.ref_name }} - #${{ github.run_number }}"
+on:
+  schedule:
+    - cron: "20 14 20 * *"
+jobs:
+  Security-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🐧 This Job is running on branch${{ github.ref_name }} on ${{ github.repository}}."
+      - name: Check out repository code
+        uses: actions/checkout@v6
+      - name: Setup node and npm
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - name: Run security audit before ci
+        continue-on-error: true
+        run: npm audit
+      - name: install dependencies -npm ci
+        run: npm ci
+      - name: Run security audit after ci
+        run: npm audit

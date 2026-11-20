@@ -1,0 +1,32 @@
+name: Generate demo library artifact
+run-name: "Generate dropdown artifact - ${{ github.ref_name }} - #${{ github.run_number }}"
+on: [push]
+jobs:
+  Build-and-package:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🐧 This Job is running on branch${{ github.ref_name }} on ${{ github.repository}}."
+      - name: Check out repository code
+        uses: actions/checkout@v6
+      - name: Setup node and npm
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - name: install dependencies -npm ci
+        run: npm ci
+      - name: Eslint Check
+        run: npm run lint
+      - name: Build Library
+        run: npm run build
+      - name: Pack Library
+        run: npm pack
+      - name: Share generated artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: "light-react-dropdown-${{ github.sha }}"
+          path: "*.tgz"
+          if-no-files-found: "error"
+          retention-days: "7"
+      - name: report job status
+        if: always()
+        run: echo "🍏 This job's status is ${{ job.status }}."
