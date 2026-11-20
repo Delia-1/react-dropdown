@@ -3,6 +3,7 @@ run-name: "Detect security vulnerabilities - ${{ github.ref_name }} - #${{ githu
 on:
   schedule:
     - cron: "20 14 20 * *"
+  workflow_dispatch:
 jobs:
   Security-audit:
     runs-on: ubuntu-latest
