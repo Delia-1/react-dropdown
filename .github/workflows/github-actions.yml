@@ -2,7 +2,24 @@ name: GitHub Hello Project
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
+  Check-code-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+      - name: setup node and npm
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - name: Run npm ci
+        run: npm ci
+      - name: Eslint Check
+        run: |
+          echo "code quality scan"
+          npm run lint
+      - run: echo "🍏 This job's status is ${{ job.status }}."
   Explore-GitHub-Actions:
+    needs: Check-code-quality
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
@@ -23,7 +40,7 @@ jobs:
       - name: setup node and npm
         uses: actions/setup-node@v7
         with:
-          node-version: "24.21.0"
+          node-version: "24"
       - name: Check node after seteup
         run: node -v
       - name: Check npm after setup
