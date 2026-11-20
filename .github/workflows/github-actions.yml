@@ -28,4 +28,13 @@ jobs:
         run: node -v
       - name: Check npm after setup
         run: npm -v
+      - name: install dependencies -npm ci
+        run: |
+          echo "files before deps install:"
+          ls -la
+          npm ci 
+          echo  "files after deps install, deps added? "
+          ls -la
+          echo  "deps: "
+          npm ls --depth=0
       - run: echo "🍏 This job's status is ${{ job.status }}."
