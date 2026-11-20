@@ -54,4 +54,19 @@ jobs:
           ls -la
           echo  "deps: "
           npm ls --depth=0
+      - name: Build Library
+        run: |
+          npm run build
+          ls -lh dist/
+      - name: Pack Library
+        run: |
+          npm pack 
+          ls -la *.tgz
+      - name: Share generated artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: "light-react-dropdown-${{ github.sha }}"
+          path: "*.tgz"
+          if-no-files-found: "error"
+          retention-days: "7"
       - run: echo "🍏 This job's status is ${{ job.status }}."

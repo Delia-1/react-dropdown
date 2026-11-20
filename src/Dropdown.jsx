@@ -29,8 +29,6 @@ const Dropdown = ({ label, name, options, customSelectLabel, styles = "" }) => {
     return;
   }
 
-  const delia = "Délia";
-
   const isObjectValue = typeof options[0] === "object";
 
   const handleChange = (e) => {
