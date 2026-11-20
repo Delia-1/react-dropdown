@@ -19,3 +19,7 @@ jobs:
       - name: List of files
         run: ls -la
       - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Check node
+        run: node -v
+      - name: Check npm
+        run: npm -v
