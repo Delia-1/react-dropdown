@@ -8,8 +8,6 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by github."
       - run: echo "🔎 The name of your branch is ${{ github.ref }}, branch name is ${{ github.ref_name }} and your repository is ${{ github.repository}}."
-      - name: List of files before checkout
-        run: ls -la
       - name: Check out repository code
         uses: actions/checkout@v6
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
@@ -18,8 +16,16 @@ jobs:
         run: pwd
       - name: List of files
         run: ls -la
-      - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Check node
         run: node -v
       - name: Check npm
         run: npm -v
+      - name: setup node and npm
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24.21.0"
+      - name: Check node after seteup
+        run: node -v
+      - name: Check npm after setup
+        run: npm -v
+      - run: echo "🍏 This job's status is ${{ job.status }}."
