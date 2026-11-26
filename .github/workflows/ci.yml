@@ -4,6 +4,10 @@ on: [push]
 jobs:
   Build-and-package:
     runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
+      attestations: write
     steps:
       - run: echo "🐧 This Job is running on branch${{ github.ref_name }} on ${{ github.repository}}."
       - name: Check out repository code
@@ -20,6 +24,10 @@ jobs:
         run: npm run build
       - name: Pack Library
         run: npm pack
+      - name: Generate artifact attestations
+        uses: actions/attest@508db95dd578ae2727ebd6217d5ba78e4fbda05d # v4.2.1
+        with:
+          subject-path: "*.tgz"
       - name: Share generated artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
