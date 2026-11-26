@@ -30,6 +30,8 @@ jobs:
         uses: actions/attest@508db95dd578ae2727ebd6217d5ba78e4fbda05d # v4.2.1
         with:
           subject-path: "*.tgz"
+      - name: Simulate artifact alteration
+        run: echo "alteration test" >> *.tgz
       - name: Check for attestation integrity
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
