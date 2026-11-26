@@ -10,6 +10,8 @@ jobs:
       attestations: write
     steps:
       - run: echo "🐧 This Job is running on branch${{ github.ref_name }} on ${{ github.repository}}."
+      - name: Check GitHub CLI
+        run: gh --version
       - name: Check out repository code
         uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v7
       - name: Setup node and npm
@@ -28,6 +30,10 @@ jobs:
         uses: actions/attest@508db95dd578ae2727ebd6217d5ba78e4fbda05d # v4.2.1
         with:
           subject-path: "*.tgz"
+      - name: Check for attestation integrity
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh attestation verify *.tgz --repo "${{ github.repository }}"
       - name: Share generated artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
