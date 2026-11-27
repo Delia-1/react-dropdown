@@ -66,7 +66,7 @@ const Dropdown = ({ label, name, options, customSelectLabel, styles = "" }) => {
         </label>
         <select
           id={label}
-          name={name ? name : label}
+          name={name || label}
           onChange={handleChange}
           className="lrd-select"
         >
