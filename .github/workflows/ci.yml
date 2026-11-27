@@ -4,26 +4,28 @@ on: [push]
 jobs:
   Build-and-package:
     runs-on: ubuntu-24.04
+    # Permissions required for artifact attestation
     permissions:
-      id-token: write
-      contents: read
-      attestations: write
+      id-token: write # Allow requesting an OIDC token (signStore use)
+      contents: read # Allow reading repository contents
+      attestations: write # Allow creating and publishing artifact attestation
     steps:
       - run: echo "🐧 This Job is running on branch${{ github.ref_name }} on ${{ github.repository}}."
       - name: Check out repository code
         uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v7
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Fetch the full Git history for accurate SonarQube analysis
       - name: Setup node and npm
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "24"
       - name: Install dependencies without lifecycle scripts
-        run: npm ci --ignore-scripts
+        # Validated: no impact on the current build and packaging process
+        run: npm ci --ignore-scripts # Prevent automatic lifecycle script execution during dependency installation
       - name: Eslint Check
         run: npm run lint
       - name: SonarQube scan
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: ${{ github.ref == 'refs/heads/master' }} # Free plan supports main branch analysis only
         uses: SonarSource/sonarqube-scan-action@70bad232163b09d998ea0707ee80c0ec80798c16 # v8.5.1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -41,12 +43,12 @@ jobs:
           subject-path: "*.tgz"
       - name: Check for attestation integrity
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Authenticate GitHub CLI
         run: gh attestation verify *.tgz --repo "${{ github.repository }}"
       - name: Share generated artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: "light-react-dropdown-${{ github.sha }}"
+          name: "light-react-dropdown-${{ github.sha }}" # Identify the artifact by its source commit
           path: "*.tgz"
           if-no-files-found: "error"
           retention-days: "7"
