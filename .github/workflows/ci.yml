@@ -12,6 +12,8 @@ jobs:
       - run: echo "🐧 This Job is running on branch${{ github.ref_name }} on ${{ github.repository}}."
       - name: Check out repository code
         uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v7
+        with:
+          fetch-depth: 0
       - name: Setup node and npm
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
@@ -20,6 +22,15 @@ jobs:
         run: npm ci --ignore-scripts
       - name: Eslint Check
         run: npm run lint
+      - name: SonarQube scan
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: SonarSource/sonarqube-scan-action@70bad232163b09d998ea0707ee80c0ec80798c16 # v8.5.1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=delia-1
+            -Dsonar.projectKey=Delia-1_react-dropdown
       - name: Build Library
         run: npm run build
       - name: Pack Library
